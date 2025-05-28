@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SecTest Framework - Nền tảng Kiểm thử Bảo mật Tích hợp</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div class="framework-container">
+      <!-- Enhanced Sidebar -->
+      <div class="framework-sidebar">
+        <div class="framework-brand">
+          <div class="brand-logo">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <div class="brand-title">SecTest Framework</div>
+          <div class="brand-subtitle">Integrated Security Testing Platform</div>
+        </div>
+
+        <div class="framework-status">
+          <div class="status-item">
+            <div class="status-indicator"></div>
+            <span>Framework Active</span>
+          </div>
+          <div class="status-item">
+            <div
+              class="status-indicator"
+              style="background: var(--warning)"
+            ></div>
+            <span>Tools Ready</span>
+          </div>
+        </div>
+
+        <nav class="framework-nav">
+          <div class="nav-group">
+            <div class="nav-group-title">Core Modules</div>
+            <div class="nav-link active" data-module="dashboard">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <span>Dashboard</span>
+            </div>
+          </div>
+
+          <div class="nav-group">
+            <div class="nav-group-title">Security Tools</div>
+            <div class="nav-link" data-module="nmap">
+              <i class="nav-icon fas fa-network-wired"></i>
+              <span>Network Scanner</span>
+              <span class="nav-badge">Nmap</span>
+            </div>
+            <div class="nav-link" data-module="metasploit">
+              <i class="nav-icon fas fa-bug"></i>
+              <span>Exploit Framework</span>
+              <span class="nav-badge">MSF</span>
+            </div>
+            <div class="nav-link" data-module="aircrack">
+              <i class="nav-icon fas fa-wifi"></i>
+              <span>WiFi Security</span>
+              <span class="nav-badge">ACK</span>
+            </div>
+          </div>
+
+          <div class="nav-group">
+            <div class="nav-group-title">Intelligence</div>
+            <div class="nav-link" data-module="ai-analysis">
+              <i class="nav-icon fas fa-brain"></i>
+              <span>AI Analysis</span>
+            </div>
+            <div class="nav-link" data-module="reports">
+              <i class="nav-icon fas fa-file-alt"></i>
+              <span>Reports</span>
+            </div>
+          </div>
+        </nav>
+      </div>
+
+      <!-- Main Content -->
+      <div class="framework-main">
+        <div class="framework-header">
+          <div class="header-left">
+            <div class="target-input-container">
+              <i class="target-input-icon fas fa-crosshairs"></i>
+              <input
+                type="text"
+                class="target-input"
+                placeholder="Target: IP, Domain, or Network Range (e.g., 192.168.1.0/24, example.com)"
+                id="framework-target"
+              />
+            </div>
+            <div class="action-group">
+              <button class="action-btn btn-primary" onclick="frameworkScan()">
+                <i class="fas fa-play"></i> Execute Scan
+              </button>
+              <button
+                class="action-btn btn-secondary"
+                onclick="frameworkConfig()"
+              >
+                <i class="fas fa-cog"></i> Configure
+              </button>
+            </div>
+          </div>
+          <div class="header-right">
+            <div class="header-control notification-btn">
+              <i class="fas fa-bell"></i>
+              <div class="notification-badge">3</div>
+            </div>
+            <div class="header-control user-avatar">A</div>
+          </div>
+        </div>
+
+        <div class="framework-content" id="module-content">
+          <!-- Dashboard Module -->
+          <div class="framework-module active" id="dashboard-module">
+            <div class="module-header">
+              <div class="module-title">
+                <i class="fas fa-chart-pie"></i> Dashboard
+              </div>
+              <div class="module-description">
+                Overview of security testing activities and results
+              </div>
+            </div>
+            <div class="module-content">
+              <div class="recently-section">
+                <h3>Lịch sử kiểm thử:</h3>
+                <div class="recently-list">
+                  <div class="recently-item">
+                    http://testphp.vulnweb.com - 2023-09-27
+                  </div>
+                  <div class="recently-item">192.168.1.100 - 2023-09-26</div>
+                  <div class="recently-item">
+                    http://mta.edu.vn - 2023-09-25
+                  </div>
+                  <div class="recently-item">
+                    http://testhtml5.vulnweb.com - 2023-09-24
+                  </div>
+                  <div class="recently-item">192.168.1.101 - 2023-09-23</div>
+                </div>
+              </div>
+              <div class="metrics-grid">
+                <div class="metric-card info">
+                  <div class="metric-header">
+                    <div class="metric-title">Thông tin mục tiêu</div>
+                    <div class="metric-icon info">
+                      <i class="fas fa-info-circle"></i>
+                    </div>
+                  </div>
+                  <div class="metric-value" id="info-count">0</div>
+                  <div class="metric-change neutral">No recent changes</div>
+                </div>
+                <div class="metric-card critical">
+                  <div class="metric-header">
+                    <div class="metric-title">Mức độ nghiêm trọng</div>
+                    <div class="metric-icon critical">
+                      <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                  </div>
+                  <div class="metric-value" id="critical-count">17</div>
+                  <div class="metric-change negative">
+                    <i class="fas fa-arrow-up"></i> +2 since last scan
+                  </div>
+                </div>
+                <div class="metric-card high">
+                  <div class="metric-header">
+                    <div class="metric-title">Mức độ cao</div>
+                    <div class="metric-icon warning">
+                      <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                  </div>
+                  <div class="metric-value" id="high-count">0</div>
+                  <div class="metric-change neutral">No issues detected</div>
+                </div>
+                <div class="metric-card medium">
+                  <div class="metric-header">
+                    <div class="metric-title">Mức độ trung bình</div>
+                    <div class="metric-icon warning">
+                      <i class="fas fa-exclamation"></i>
+                    </div>
+                  </div>
+                  <div class="metric-value" id="medium-count">15</div>
+                  <div class="metric-change positive">
+                    <i class="fas fa-arrow-down"></i> -3 since last scan
+                  </div>
+                </div>
+                <div class="metric-card low">
+                  <div class="metric-header">
+                    <div class="metric-title">Mức độ thấp</div>
+                    <div class="metric-icon success">
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                  </div>
+                  <div class="metric-value" id="low-count">95</div>
+                  <div class="metric-change neutral">Stable</div>
+                </div>
+              </div>
+              <div
+                class="status-indicator-group"
+                id="scan-status"
+                style="display: none"
+              >
+                <div class="status-item completed">
+                  <i class="fas fa-check"></i> Trạng thái:
+                  <span id="status-text">Kiểm thử hoàn tất</span>
+                </div>
+                <div class="status-item idle">
+                  <i class="fas fa-crosshairs"></i> Mục tiêu:
+                  <span id="status-target"></span>
+                </div>
+                <div class="status-item idle">
+                  <i class="fas fa-clock"></i> Bắt đầu:
+                  <span id="status-start-time"></span>
+                </div>
+                <div class="status-item idle">
+                  <i class="fas fa-stopwatch"></i> Thời gian thực hiện:
+                  <span id="status-elapsed"></span>
+                </div>
+              </div>
+              <div class="action-toolbar">
+                <div class="toolbar-group">
+                  <button
+                    class="toolbar-btn btn-primary"
+                    onclick="frameworkScan()"
+                  >
+                    <i class="fas fa-play"></i> Execute Scan
+                  </button>
+                  <button
+                    class="toolbar-btn btn-export"
+                    onclick="exportReport('dashboard')"
+                  >
+                    <i class="fas fa-file-export"></i> Export Report
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Nmap Module -->
+          <div class="framework-module" id="nmap-module">
+            <div class="module-header">
+              <div class="module-title">
+                <i class="fas fa-network-wired"></i> Network Scanner
+              </div>
+              <div class="module-description">
+                Nmap - Network exploration tool and security/port scanner
+              </div>
+            </div>
+            <div class="module-content">
+              <div class="config-grid">
+                <div
+                  class="config-card selected"
+                  data-scan-type="quick"
+                  onclick="selectScanType('quick')"
+                >
+                  <div class="config-header">
+                    <div class="config-icon"><i class="fas fa-bolt"></i></div>
+                    <div class="config-info">
+                      <h3>Quét nhanh</h3>
+                      <p>Quét các cổng phổ biến (-F)</p>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="config-card"
+                  data-scan-type="full"
+                  onclick="selectScanType('full')"
+                >
+                  <div class="config-header">
+                    <div class="config-icon"><i class="fas fa-search"></i></div>
+                    <div class="config-info">
+                      <h3>Quét toàn diện</h3>
+                      <p>Quét tất cả 65535 cổng (-p-)</p>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="config-card"
+                  data-scan-type="stealth"
+                  onclick="selectScanType('stealth')"
+                >
+                  <div class="config-header">
+                    <div class="config-icon">
+                      <i class="fas fa-user-secret"></i>
+                    </div>
+                    <div class="config-info">
+                      <h3>Quét ẩn</h3>
+                      <p>Quét SYN ẩn (-sS)</p>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="config-card"
+                  data-scan-type="service"
+                  onclick="selectScanType('service')"
+                >
+                  <div class="config-header">
+                    <div class="config-icon"><i class="fas fa-cogs"></i></div>
+                    <div class="config-info">
+                      <h3>Phát hiện dịch vụ</h3>
+                      <p>Xác định phiên bản dịch vụ (-sV)</p>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="config-card"
+                  data-scan-type="os"
+                  onclick="selectScanType('os')"
+                >
+                  <div class="config-header">
+                    <div class="config-icon"><i class="fas fa-laptop"></i></div>
+                    <div class="config-info">
+                      <h3>Phát hiện OS</h3>
+                      <p>Xác định hệ điều hành (-O)</p>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="config-card"
+                  data-scan-type="script"
+                  onclick="selectScanType('script')"
+                >
+                  <div class="config-header">
+                    <div class="config-icon"><i class="fas fa-code"></i></div>
+                    <div class="config-info">
+                      <h3>Quét Script</h3>
+                      <p>Chạy các script NSE mặc định (-sC)</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="status-indicator-group" id="nmap-status">
+                <div class="status-item idle">
+                  <i class="fas fa-info-circle"></i> Trạng thái: Chưa thực thi
+                </div>
+                <div class="status-item idle">
+                  <i class="fas fa-crosshairs"></i> Mục tiêu:
+                  <span id="nmap-target-status">Chưa xác định</span>
+                </div>
+                <div class="status-item idle">
+                  <i class="fas fa-clock"></i> Thời gian bắt đầu:
+                  <span id="nmap-start-time">Chưa bắt đầu</span>
+                </div>
+              </div>
+              <div class="action-toolbar">
+                <div class="toolbar-group">
+                  <button
+                    class="toolbar-btn btn-execute"
+                    onclick="runNmapScan()"
+                  >
+                    <i class="fas fa-play"></i> Chạy quét Nmap
+                  </button>
+                  <button
+                    class="toolbar-btn btn-export"
+                    onclick="exportReport('nmap')"
+                  >
+                    <i class="fas fa-file-export"></i> Xuất báo cáo Nmap
+                  </button>
+                </div>
+              </div>
+              <div class="framework-terminal">
+                <div class="terminal-header">Nmap Scan Output</div>
+                <div id="nmap-output">
+                  <div class="terminal-line">
+                    <span class="terminal-prompt">root@kali:~#</span>
+                    Đang chờ kết quả quét...
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <script>
+            let currentScanType = "quick"; // Mặc định là quét nhanh
+
+            function selectScanType(type) {
+              currentScanType = type;
+              // Xóa class 'selected' từ tất cả config-card
+              document
+                .querySelectorAll(".config-card")
+                .forEach((card) => card.classList.remove("selected"));
+              // Thêm class 'selected' cho config-card được chọn
+              document
+                .querySelector(`[data-scan-type="${type}"]`)
+                .classList.add("selected");
+            }
+          </script>
+
+          <!-- Metasploit Module -->
+          <div class="framework-module" id="metasploit-module">
+            <div class="module-header">
+              <div class="module-title">
+                <i class="fas fa-bug"></i> Exploit Framework
+              </div>
+              <div class="module-description">
+                Metasploit - Penetration testing and exploit development
+              </div>
+            </div>
+            <div class="module-content">
+              <div class="config-grid">
+                <!-- Auxiliary Modules -->
+                <div
+                  class="config-card"
+                  data-module="auxiliary/scanner/portscan/tcp"
+                  onclick="selectModule(this)"
+                >
+                  <div class="config-header">
+                    <div class="config-icon">
+                      <i class="fas fa-search-plus"></i>
+                    </div>
+                    <div class="config-info">
+                      <h3>Quét cổng</h3>
+                      <p>Quét các cổng mở trên mục tiêu</p>
+                    </div>
+                  </div>
+                </div>
+                <!-- Payload Modules -->
+                <div
+                  class="config-card"
+                  data-module="payload/windows/meterpreter/reverse_tcp"
+                  onclick="selectModule(this)"
+                >
+                  <div class="config-header">
+                    <div class="config-icon"><i class="fas fa-rocket"></i></div>
+                    <div class="config-info">
+                      <h3>Payload Windows</h3>
+                      <p>Meterpreter reverse TCP cho Windows</p>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="config-card"
+                  data-module="payload/linux/x86/meterpreter/reverse_tcp"
+                  onclick="selectModule(this)"
+                >
+                  <div class="config-header">
+                    <div class="config-icon"><i class="fas fa-rocket"></i></div>
+                    <div class="config-info">
+                      <h3>Payload Linux</h3>
+                      <p>Meterpreter reverse TCP cho Linux</p>
+                    </div>
+                  </div>
+                </div>
+                <!-- Post Modules -->
+                <div
+                  class="config-card"
+                  data-module="post/windows/gather/credentials"
+                  onclick="selectModule(this)"
+                >
+                  <div class="config-header">
+                    <div class="config-icon"><i class="fas fa-key"></i></div>
+                    <div class="config-info">
+                      <h3>Hậu khai thác Credentials</h3>
+                      <p>Thu thập thông tin đăng nhập</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Tùy chọn cấu hình gọn gàng -->
+              <div class="module-options">
+                <div class="row-1">
+                  <label for="metasploit-module">Module:</label>
+                  <input
+                    type="text"
+                    id="metasploit-module"
+                    placeholder="exploit/multi/samba/usermap_script"
+                  />
+                  <label for="metasploit-lhost">LHOST:</label>
+                  <input
+                    type="text"
+                    id="metasploit-lhost"
+                    placeholder="192.168.90.132"
+                  />
+                  <label for="metasploit-lport">LPORT:</label>
+                  <input type="text" id="metasploit-lport" placeholder="4444" />
+                </div>
+                <div class="row-2">
+                  <label for="metasploit-rport">RPORT:</label>
+                  <input
+                    type="text"
+                    id="metasploit-rport"
+                    placeholder="Cổng (ví dụ: 4444)"
+                  />
+                  <label for="metasploit-payload">Payload:</label>
+                  <input
+                    type="text"
+                    id="metasploit-payload"
+                    placeholder="Payload (ví dụ: windows/meterpreter/reverse_tcp)"
+                  />
+                </div>
+              </div>
+              <div class="status-indicator-group" id="metasploit-status">
+                <div class="status-item idle">
+                  <i class="fas fa-info-circle"></i> Trạng thái: Chưa thực thi
+                </div>
+                <div class="status-item idle">
+                  <i class="fas fa-crosshairs"></i> Mục tiêu:
+                  <span id="metasploit-target-status">Chưa xác định</span>
+                </div>
+                <div class="status-item idle">
+                  <i class="fas fa-clock"></i> Thời gian bắt đầu:
+                  <span id="metasploit-start-time">Chưa bắt đầu</span>
+                </div>
+              </div>
+              <div class="action-toolbar">
+                <div class="toolbar-group">
+                  <button
+                    class="toolbar-btn btn-execute"
+                    onclick="runMetasploit()"
+                  >
+                    <i class="fas fa-play"></i> Chạy Metasploit
+                  </button>
+                  <button
+                    class="toolbar-btn btn-export"
+                    onclick="exportReport('metasploit')"
+                  >
+                    <i class="fas fa-file-export"></i> Xuất báo cáo Metasploit
+                  </button>
+                </div>
+              </div>
+              <div class="framework-terminal">
+                <div class="terminal-header">Metasploit Command Output</div>
+                <div id="metasploit-output">
+                  <div class="terminal-line">
+                    <span class="terminal-prompt">msf6 ></span> Chưa thực thi
+                    lệnh Metasploit...
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <script>
+            let currentModule = "auxiliary/scanner/portscan/tcp"; // Mặc định
+
+            function selectModule(element) {
+              document
+                .querySelectorAll("#metasploit-module .config-card")
+                .forEach((card) => card.classList.remove("selected"));
+              element.classList.add("selected");
+              currentModule = element.getAttribute("data-module");
+            }
+          </script>
+
+          <!-- Aircrack-ng Module -->
+          <div class="framework-module" id="aircrack-module">
+            <div class="module-header">
+              <div class="module-title">
+                <i class="fas fa-wifi"></i> WiFi Security
+              </div>
+              <div class="module-description">
+                Aircrack-ng - Wireless network security assessment suite
+              </div>
+            </div>
+            <div class="module-content">
+              <div class="config-grid">
+                <div class="config-card selected">
+                  <div class="config-header">
+                    <div class="config-icon"><i class="fas fa-eye"></i></div>
+                    <div class="config-info">
+                      <h3>Chế độ giám sát</h3>
+                      <p>Kích hoạt giám sát giao diện không dây</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="config-card">
+                  <div class="config-header">
+                    <div class="config-icon"><i class="fas fa-signal"></i></div>
+                    <div class="config-info">
+                      <h3>Airodump-ng</h3>
+                      <p>Ghi lại và phân tích gói tin không dây</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="config-card">
+                  <div class="config-header">
+                    <div class="config-icon">
+                      <i class="fas fa-broadcast-tower"></i>
+                    </div>
+                    <div class="config-info">
+                      <h3>Aireplay-ng</h3>
+                      <p>Tiêm gói tin và tấn công phát lại</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="config-card">
+                  <div class="config-header">
+                    <div class="config-icon"><i class="fas fa-key"></i></div>
+                    <div class="config-info">
+                      <h3>Aircrack-ng</h3>
+                      <p>Công cụ khôi phục mật khẩu WEP/WPA</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="config-card">
+                  <div class="config-header">
+                    <div class="config-icon"><i class="fas fa-unlink"></i></div>
+                    <div class="config-info">
+                      <h3>Tấn công Deauth</h3>
+                      <p>Ngắt kết nối client</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="config-card">
+                  <div class="config-header">
+                    <div class="config-icon"><i class="fas fa-mask"></i></div>
+                    <div class="config-info">
+                      <h3>Evil Twin</h3>
+                      <p>Tạo điểm truy cập giả mạo</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="action-toolbar">
+                <div class="toolbar-group">
+                  <button
+                    class="toolbar-btn btn-export"
+                    onclick="exportReport('aircrack')"
+                  >
+                    <i class="fas fa-file-export"></i> Xuất báo cáo Aircrack-ng
+                  </button>
+                </div>
+              </div>
+              <div class="framework-terminal">
+                <div class="terminal-header">Aircrack-ng Output</div>
+                <div id="aircrack-output">
+                  <div class="terminal-line">
+                    <span class="terminal-prompt">root@kali:~#</span> airmon-ng
+                    start wlan0
+                  </div>
+                  <div class="terminal-line terminal-output">
+                    Interface wlan0 -> wlan0mon (monitor mode enabled)
+                  </div>
+                  <div class="terminal-line">
+                    <span class="terminal-prompt">root@kali:~#</span>
+                    airodump-ng wlan0mon
+                  </div>
+                  <div class="terminal-line terminal-output">
+                    BSSID PWR Beacons #Data, #/s CH MB ENC CIPHER AUTH ESSID
+                  </div>
+                  <div class="terminal-line terminal-output">
+                    AA:BB:CC:DD:EE:FF -30 42 0 0 6 54e WPA2 CCMP PSK MyNetwork
+                  </div>
+                  <div class="terminal-line terminal-output">
+                    11:22:33:44:55:66 -45 18 5 0 11 54e WEP WEP OpenWiFi
+                  </div>
+                  <div class="terminal-line">
+                    <span class="terminal-prompt">root@kali:~#</span>
+                    aircrack-ng -w wordlist.txt capture.cap
+                  </div>
+                  <div class="terminal-line terminal-output">
+                    [00:02:15] 45678/87543 keys tested (342.56 k/s)
+                  </div>
+                  <div class="terminal-line terminal-output">
+                    KEY FOUND! [ password123 ]
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI Analysis Module -->
+          <div class="framework-module" id="ai-analysis-module">
+            <div class="module-header">
+              <div class="module-title">
+                <i class="fas fa-brain"></i> AI Hỗ trợ Xây dựng Kịch bản Tự động
+              </div>
+              <div class="module-description">
+                Hỗ trợ tự động hóa việc xây dựng và tối ưu hóa kịch bản kiểm thử
+                bảo mật
+              </div>
+            </div>
+            <div class="module-content">
+              <div class="config-grid">
+                <div class="config-card selected">
+                  <div class="config-header">
+                    <div class="config-icon"><i class="fas fa-code"></i></div>
+                    <div class="config-info">
+                      <h3>Tạo kịch bản kiểm thử</h3>
+                      <p>Tự động tạo kịch bản kiểm thử dựa trên mục tiêu</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="config-card">
+                  <div class="config-header">
+                    <div class="config-icon"><i class="fas fa-tools"></i></div>
+                    <div class="config-info">
+                      <h3>Tối ưu hóa kịch bản</h3>
+                      <p>Tinh chỉnh kịch bản để tăng hiệu quả kiểm thử</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="config-card">
+                  <div class="config-header">
+                    <div class="config-icon">
+                      <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="config-info">
+                      <h3>Xuất kịch bản</h3>
+                      <p>Tạo và lưu kịch bản kiểm thử dưới dạng tệp</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="config-card">
+                  <div class="config-header">
+                    <div class="config-icon"><i class="fas fa-plug"></i></div>
+                    <div class="config-info">
+                      <h3>Tích hợp công cụ</h3>
+                      <p>Tích hợp kịch bản với Nmap, Metasploit, Aircrack-ng</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="action-toolbar">
+                <div class="toolbar-group">
+                  <button
+                    class="toolbar-btn btn-export"
+                    onclick="exportReport('ai')"
+                  >
+                    <i class="fas fa-file-export"></i> Xuất kịch bản AI
+                  </button>
+                </div>
+              </div>
+              <div class="framework-terminal">
+                <div class="terminal-header">Kết quả AI Hỗ trợ Kịch bản</div>
+                <div id="ai-output">
+                  <div class="terminal-line">
+                    <span class="terminal-prompt">AI@platform:~#</span>
+                    generate_script --target
+                    <span id="ai-target">http://example.com</span>
+                  </div>
+                  <div class="terminal-line terminal-output">
+                    [*] Starting AI-driven script generation...
+                  </div>
+                  <div class="terminal-line terminal-output">
+                    [*] Generated test script: scan_http_example_com.sh
+                  </div>
+                  <div class="terminal-line terminal-output">
+                    [*] Optimizing script for efficiency...
+                  </div>
+                  <div class="terminal-line terminal-output">
+                    [*] Script saved: script_2023-09-27.sh
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Reports Module -->
+          <div class="framework-module" id="reports-module">
+            <div class="module-header">
+              <div class="module-title">
+                <i class="fas fa-file-alt"></i> Reports & Scheduling
+              </div>
+              <div class="module-description">
+                Configure periodic testing và báo cáo generation
+              </div>
+            </div>
+            <div class="module-content">
+              <div class="form-row">
+                <div class="form-field">
+                  <label class="form-label"
+                    ><i class="fas fa-crosshairs"></i> Mục tiêu</label
+                  >
+                  <input
+                    type="text"
+                    class="form-input"
+                    id="schedule-target"
+                    placeholder="http://example.com hoặc 192.168.1.100"
+                  />
+                </div>
+                <div class="form-field">
+                  <label class="form-label"
+                    ><i class="fas fa-tools"></i> Công cụ</label
+                  >
+                  <select class="form-select" id="schedule-tool">
+                    <option value="nmap">Nmap</option>
+                    <option value="metasploit">Metasploit</option>
+                    <option value="aircrack">Aircrack-ng</option>
+                    <option value="ai">AI Tự động</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label class="form-label"
+                    ><i class="fas fa-clock"></i> Tần suất</label
+                  >
+                  <select class="form-select" id="schedule-frequency">
+                    <option value="daily">Hàng ngày</option>
+                    <option value="weekly">Hàng tuần</option>
+                    <option value="monthly">Hàng tháng</option>
+                  </select>
+                </div>
+              </div>
+              <div class="action-toolbar">
+                <div class="toolbar-group">
+                  <button
+                    class="toolbar-btn btn-execute"
+                    onclick="scheduleScan()"
+                  >
+                    <i class="fas fa-calendar-plus"></i> Lên lịch
+                  </button>
+                  <button
+                    class="toolbar-btn btn-export"
+                    onclick="exportReport('schedule')"
+                  >
+                    <i class="fas fa-file-export"></i> Xuất báo cáo Lập lịch
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/nmap.js"></script>
+    <script src="js/metasploit.js"></script>
+    <script src="js/aircrack.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/reports.js"></script>
+    <script src="js/utils.js"></script>
+  </body>
+</html>
